@@ -5,13 +5,22 @@ PyTorch >= 1.1.0
 PyYAML, tqdm, tensorboardX
 ## Data Preparation
 Download datasets. There are 3 datasets to download:
-*NEU-SEG dataset
-*DAGM dataset
-*MT (Magnetic Tiles) dataset
+* NEU-SEG dataset
+* DAGM dataset
+* MT (Magnetic Tiles) dataset
 
 Put downloaded data into the following directory structure:
-data/
-    NEU-Seg/ ... # raw data of NEU-Seg
-    DAGM/ ...# raw data of DAGM
-    MT/ ...# raw data of MTiles
+* data/
+    * NEU-Seg/ ... # raw data of NEU-Seg
+    * DAGM/ ...# raw data of DAGM
+    * MT/ ...# raw data of MTiles
 ## Data loading and preparation 
+
+## Visualization
+
+## Acknowledgment
+
+This repo borrowed many implementations from [SSL4MIS](https://github.com/HiLab-git/SSL4MIS)
+
+## Contact
+For any issue please contact me at djene.mengistu@gmail.com

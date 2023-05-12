@@ -39,10 +39,12 @@ Download datasets. There are 3 datasets to download:
 
 Put downloaded data into the following directory structure:
 * data/
-    * NEU-Seg/ ... # raw data of NEU-Seg
-    * DAGM/ ...# raw data of DAGM
-    * MT/ ...# raw data of MTiles
+    * NEU_data/ ... # raw data of NEU-Seg
+    * DAGM_data/ ...# raw data of DAGM
+    * MTiles_data/ ...# raw data of MTiles
 ## Data loading and preparation 
+
+## Code usage
 
 ## Some results and visualization
 The results of the proposed method compared with the supervised baseline is presented as follows:

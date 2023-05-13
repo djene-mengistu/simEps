@@ -2,4 +2,4 @@
 
 notebooks/** linguist-vendored
 
-*.ipynb -linguist-detectable
+*.ipynb -linguist-detectable = False

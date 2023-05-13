@@ -33,19 +33,32 @@ PyTorch >= 1.1.0
 PyYAML, tqdm, tensorboardX
 ## Data Preparation
 Download datasets. There are 3 datasets to download:
-* NEU-SEG dataset
-* DAGM dataset
-* MT (Magnetic Tiles) dataset
+* NEU-SEG dataset from [NEU-seg](https://ieeexplore.ieee.org/document/8930292)
+* DAGM dataset from [DAGM](https://www.kaggle.com/datasets/mhskjelvareid/dagm-2007-competition-dataset-optical-inspection)
+* MT (Magnetic Tiles) dataset from [MTiles](https://www.kaggle.com/datasets/alex000kim/magnetic-tile-surface-defects)
 
 Put downloaded data into the following directory structure:
 * data/
     * NEU_data/ ... # raw data of NEU-Seg
     * DAGM_data/ ...# raw data of DAGM
     * MTiles_data/ ...# raw data of MTiles
-## Data loading and preparation 
-
 ## Code usage
+The training files and settings for each compared network is presented in separate directory. Train each network and test from the presented directory.
+To train the proposed **simEps** method run the following after setting hyperparameters such as labeled-ratio, iteration-per-epoch, consistency ramp length, and pair-wise-similarity loss coefficient.
+```bash
+python simEps_train.py
+```
 
+To test the performance of the proposed method:
+```bash
+run simEps_Testing.ipynb
+```
+
+To evaluate and visualize the pairwise similarirty map:
+```bash
+run simEps_evalaute.ipynb
+```
+Similarly, train the proposed method, **simEps**, for the other datasets from the indicated directories after setting appropriate hyper-parametres.
 ## Some results and visualization
 The results of the proposed method compared with the supervised baseline is presented as follows:
 

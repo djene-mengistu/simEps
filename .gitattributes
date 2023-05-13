@@ -11,4 +11,4 @@
 #
 *.gitattributes linguist-language=gitattributes
 
-notebooks/** linguist-vendored
+*notebooks/** linguist-vendored

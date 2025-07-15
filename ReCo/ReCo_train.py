@@ -11,9 +11,6 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 from itertools import cycle
-
-# import torch.backends.cudnn as cudnn
-# import yaml
 from tensorboardX import SummaryWriter
 from torch.autograd import Variable
 from torch.nn.modules.loss import CrossEntropyLoss
@@ -34,12 +31,7 @@ os.environ["PYTHONHASHSEED"] = str(seed)
 np.random.seed(seed)
 torch.cuda.manual_seed(seed)
 torch.backends.cudnn.deterministic = True
-# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"  # specify which GPU(s) to be used
-
 parser = argparse.ArgumentParser()
-# parser.add_argument('--root_path', type=str,
-#                     default='../data/ACDC', help='Name of Experiment')
 parser.add_argument('--model', type=str,
                     default='unet', help='model_name')
 parser.add_argument('--num_classes', type=int,  default=4,
@@ -49,9 +41,6 @@ parser.add_argument('--max_iterations', type=int,
 parser.add_argument('--base_lr', type=float,  default=0.001,
                     help='segmentation network learning rate')
 parser.add_argument('--seed', type=int,  default=1337, help='random seed')
-# parser.add_argument('--labeled_num', type=int, default=50,
-#                     help='labeled data')
-
 parser.add_argument('--ema_decay', type=float,  default=0.99, help='ema_decay')
 parser.add_argument('--consistency_type', type=str,
                     default="mse", help='consistency_type')
@@ -67,19 +56,13 @@ parser.add_argument('--num_queries', default=256, type=int, help='number of quer
 parser.add_argument('--temp', default=0.5, type=float)
 
 args = parser.parse_args()
-
-# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # specify the GPU id's, GPU id's start from 0.
 
 
 epochs = 600
-# batchsize = 16 
-# CE = torch.nn.BCELoss()
-# criterion_1 = torch.nn.BCELoss()
 num_classes = args.num_classes
 
 ce_loss = CrossEntropyLoss()
-# dice_loss = 1 - mDice(pred_mask, mask)
 base_lr = args.base_lr
 max_iterations = args.max_iterations
 
@@ -224,8 +207,6 @@ class Network(object):
                 reco_weight = 0.1*consistency_weight
               
                 loss = loss_sup + consistency_weight*ps_loss + 0.1*reco_loss
-             
-                # seg_loss = seg_loss / self.accumulation_steps
                 optimizer_1.zero_grad()
                 
                 loss.backward()
@@ -269,10 +250,6 @@ class Network(object):
 
             self.logger.info('Train dice-loss: {}'.format(epoch_dice_loss))
             self.writer.add_scalar('Train/Dice-Loss', epoch_dice_loss, epoch)
-
-            # self.logger.info('Train consistency-loss: {}'.format(epoch_consistency_loss))
-            # self.writer.add_scalar('Train/Con-Loss', epoch_consistency_loss, epoch)
-
             self.logger.info('Train ReCo-loss: {}'.format(epoch_reco_loss))
             self.writer.add_scalar('Train/ReCo-Loss', epoch_reco_loss, epoch)
 
@@ -280,8 +257,6 @@ class Network(object):
             self.writer.add_scalar('Train/ps-Loss', epoch_ps_loss, epoch)
 
             self.writer.add_scalar('info/lr', lr_, epoch)
-            # self.writer.add_scalar('info/consis_weight', consistency_weight, epoch)
-            # self.writer.add_scalar('info/threshold', threshold, epoch)
             torch.cuda.empty_cache()
 
             self.model.eval()
@@ -289,30 +264,21 @@ class Network(object):
             for i, pack in enumerate(val_loader, start=1):
                 with torch.no_grad():
                     images, gts = pack
-                    # images = Variable(images)
-                    # gts = Variable(gts)
                     images = images.to(device)
                     gts = gts.to(device)
                     
-                    _, prediction_1 = self.model(images)
-                    # Prediction_1_soft = torch.softmax(prediction_1, dim=1)
-
-                        
+                    _, prediction_1 = self.model(images)                       
 
                 # dice_coe_1 = dice_coef(prediction_1, gts)
                 loss_ce_1 = ce_loss(prediction_1, gts.long())
                 loss_dice_1 = 1 - mDice(prediction_1, gts)
-                # loss_ce = loss_ce_1 + loss_ce_2
-                # loss_dice = loss_dice_1 + loss_dice_2
-
                 val_loss = 0.5 * (loss_dice_1 + loss_ce_1)
 
                 running_val_loss += val_loss
                 running_val_iou_1 += mIoU(prediction_1, gts)
                 running_val_accuracy_1 += pixel_accuracy(prediction_1, gts)
                 running_val_dice_1 += mDice(prediction_1, gts)
-
-                 
+                
             epoch_loss_val = running_val_loss / len(val_loader)
             epoch_dice_val_1 = running_val_dice_1 / len(val_loader)
             epoch_iou_val_1 = running_val_iou_1 / len(val_loader)
@@ -333,26 +299,16 @@ class Network(object):
             self.logger.info('Validation Accuracy_1 : {}'.format(epoch_accuracy_val_1))
             self.writer.add_scalar('Validation/Accuracy-1', epoch_accuracy_val_1, epoch)
 
-
-            
+           
             mdice_coeff_1 =  epoch_dice_val_1
-            # mdice_coeff_2 =  epoch_dice_val_2
-            # mval_loss_1 = epoch_val_loss
 
             if self.best_dice_coeff_1 < mdice_coeff_1:
                 self.best_dice_coeff_1 = mdice_coeff_1
                 self.save_best_model_1 = True
-
-                # if not os.path.exists(self.image_save_path_1):
-                #     os.makedirs(self.image_save_path_1)
-
-                # copy_tree(self.image_save_path_1, self.save_path + '/best_model_predictions_1')
                 self.patience = 0
             else:
                 self.save_best_model_1 = False
                 self.patience += 1
-
-
                         
             Checkpoints_Path = self.save_path + '/Checkpoints'
 
@@ -367,11 +323,8 @@ class Network(object):
                 "optimizer": optimizer_1.state_dict(),
                 }
                 # state["best_loss"] = self.best_loss
-                torch.save(state_1, Checkpoints_Path + '/ReCo_10p.pth')
-  
- 
-            
-            
+                torch.save(state_1, Checkpoints_Path + '/ReCo_10p.pth') 
+                       
              
             self.logger.info(
                 'current best dice coef: model: {}'.format(self.best_dice_coeff_1))

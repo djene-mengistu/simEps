@@ -18,7 +18,8 @@ The pairwise similarity map consistecy loss among the parallel networks at three
 # Full paper source:
 You can read the details about the methods, implementation, and results from: (https://ieeexplore.ieee.org/document/9994033)
 
-**Please cite ourwork as follows:**
+⭐ [Please Star this repo](https://github.com/djene-mengistu/simEps)
+🔥 If you find it useful, **Please cite ourwork as follows:**
 ```
 @article{sime2022semi,
   title={Semi-Supervised Defect Segmentation with Pairwise Similarity Map Consistency and Ensemble-Based Cross-Pseudo Labels},

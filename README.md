@@ -7,7 +7,7 @@ In this study, we propose a novel method based on pairwise similarity map consis
 You can read the details about the methods, implementation, and results from: (https://ieeexplore.ieee.org/document/9994033)
 
 ⭐ [Please Star this repo](https://github.com/djene-mengistu/simEps)
-🔥 If you find it useful, **Please cite ourwork as follows:**
+🔥 If you find it useful, **also cite our work as follows:**
 ```
 @ARTICLE{djene-simEps,
   author={Sime, Dejene M. and Wang, Guotai and Zeng, Zhi and Wang, Wei and Peng, Bei},
@@ -37,7 +37,7 @@ The pairwise similarity map consistecy loss among the parallel networks at three
 
 **Fig. 2:** Paiwrwise similarity map consistency loss computation.
 
-## 🧠 Data Preparation
+# 🧠 Data Preparation
 Download datasets. There are 3 datasets to download:
 * NEU-SEG dataset from [NEU-seg](https://ieeexplore.ieee.org/document/8930292)
 * DAGM dataset from [DAGM](https://www.kaggle.com/datasets/mhskjelvareid/dagm-2007-competition-dataset-optical-inspection)
@@ -48,7 +48,7 @@ Put downloaded data into the following directory structure:
     * NEU_data/ ... # raw data of NEU-Seg
     * DAGM_data/ ...# raw data of DAGM
     * MTiles_data/ ...# raw data of MTiles
-## Code usage
+# 🤝Code usage
 The training files and settings for each compared network is presented in separate directory. Train each network and test from the presented directory.
 To train the proposed **simEps** method run the following after setting hyperparameters such as labeled-ratio, iteration-per-epoch, consistency ramp length, and pair-wise-similarity loss coefficient.
 ```bash
@@ -65,7 +65,8 @@ To evaluate and visualize the pairwise similarirty map:
 run simEps_evalaute.ipynb
 ```
 Similarly, train the proposed method, **simEps**, for the other datasets from the indicated directories after setting appropriate hyper-parametres.
-## Some results and visualization
+
+# 🌱Some results and visualization
 The results of the proposed method compared with the supervised baseline is presented as follows:
 
  <p align="center">
@@ -94,9 +95,9 @@ The visualization of the segmetnation results for the baseline, selected semi-su
 
 **Fig. 6:** Visualization of paiwrwise similarity map computed at multi-stages after training.
 
-## Acknowledgment
+## 🤝 Acknowledgment
 
 This repo borrowed many implementations from [SSL4MIS](https://github.com/HiLab-git/SSL4MIS)
 
-## Contact
+## 📬 Contact
 For any issue please contact me at djene.mengistu@gmail.com
